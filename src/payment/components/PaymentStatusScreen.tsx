@@ -12,7 +12,6 @@ import {
   ShieldCheck,
   ArrowLeft,
   FileText,
-  AlertCircle,
 } from 'lucide-react';
 import { Transaction, PaymentStatus } from '../types/payment.types';
 import { TranslationSchema } from '../i18n/translations';
@@ -53,17 +52,6 @@ export const PaymentStatusScreen: React.FC<PaymentStatusScreenProps> = ({
       id="payment-status-container"
       className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden max-w-lg mx-auto"
     >
-      {/* Top Banner Notice indicating Prototype vs Production verification */}
-      <div className="bg-amber-100/90 border-b border-amber-200 px-4 py-2 flex items-start gap-2 text-xs text-amber-950 font-medium">
-        <AlertCircle className="w-4 h-4 text-amber-700 flex-shrink-0 mt-0.5" />
-        <div>
-          <span className="font-bold">PROTOTYPE DEMO STATUS: </span>
-          <span>
-            Simulated for Hackathon evaluation. In real production, SahakarGig verifies status via secure server-to-server webhook with the merchant bank.
-          </span>
-        </div>
-      </div>
-
       <div className="p-6 sm:p-8 flex flex-col items-center text-center">
         {/* State Icon & Titles */}
         {status === 'processing' || status === 'initiating' || status === 'intent_dispatched' ? (

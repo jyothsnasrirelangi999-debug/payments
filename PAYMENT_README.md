@@ -1,4 +1,4 @@
-# SahakarGig UPI Payment Module (SIH Prototype)
+# SahakarGig UPI Payment Module
 
 An accessible, secure, multilingual Unified Payments Interface (UPI) payment module engineered for the **SahakarGig** cooperative gig platform.
 
@@ -136,7 +136,7 @@ The module features a zero-dependency internationalization (`i18n`) architecture
 
 ---
 
-## 7. Demo Mode Explanation (SIH Hackathon)
+## 7. Demo Mode Explanation (Prototype Simulation)
 
 A dedicated **Judge Test Controls** harness is accessible via the top navigation bar:
 

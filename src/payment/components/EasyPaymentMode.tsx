@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  Volume2,
-  VolumeX,
   Smartphone,
   CheckCircle2,
   Lock,
@@ -14,6 +12,7 @@ import {
 } from 'lucide-react';
 import { PaymentRequest, Language } from '../types/payment.types';
 import { TranslationSchema } from '../i18n/translations';
+import { UpiAppIcon } from './UpiAppIcon';
 
 interface EasyPaymentModeProps {
   request: PaymentRequest | null;
@@ -21,12 +20,6 @@ interface EasyPaymentModeProps {
   onSetStep: (step: number) => void;
   onPayAnyUpi: () => void;
   onOpenQr: () => void;
-  isVoiceEnabled: boolean;
-  onToggleVoice: () => void;
-  onSpeakText: (text: string) => void;
-  isSpeaking: boolean;
-  currentCaption: string | null;
-  language: Language;
   t: TranslationSchema;
 }
 
@@ -36,12 +29,6 @@ export const EasyPaymentMode: React.FC<EasyPaymentModeProps> = ({
   onSetStep,
   onPayAnyUpi,
   onOpenQr,
-  isVoiceEnabled,
-  onToggleVoice,
-  onSpeakText,
-  isSpeaking,
-  currentCaption,
-  language,
   t,
 }) => {
   if (!request) return null;
@@ -52,51 +39,19 @@ export const EasyPaymentMode: React.FC<EasyPaymentModeProps> = ({
       className="bg-white rounded-3xl border-4 border-emerald-600 shadow-2xl p-6 sm:p-10 max-w-xl mx-auto space-y-8"
     >
       {/* High Contrast Header with Big Accessible Mode Badge */}
-      <div className="bg-emerald-50 rounded-2xl p-4 border-2 border-emerald-300 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-2xl shadow-sm">
-            ✓
-          </div>
-          <div>
-            <h2 className="text-xl sm:text-2xl font-black text-emerald-950">
-              {t.easyModeTitle}
-            </h2>
-            <p className="text-xs sm:text-sm text-emerald-800 font-bold">
-              {t.easyModeSubtitle}
-            </p>
-          </div>
+      <div className="bg-emerald-50 rounded-2xl p-4 border-2 border-emerald-300 flex items-center gap-3">
+        <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-2xl shadow-sm">
+          ✓
         </div>
-
-        {/* Big Read Aloud Audio Control */}
-        <button
-          id="btn-easy-read-aloud"
-          onClick={() => {
-            if (isSpeaking) {
-              onToggleVoice();
-            } else {
-              let voiceMsg = '';
-              if (activeStep === 1) voiceMsg = `${t.voiceStep1} ₹${request.amount}.`;
-              else if (activeStep === 2) voiceMsg = t.voiceStep2;
-              else if (activeStep === 3) voiceMsg = t.voiceStep3;
-              else if (activeStep === 4) voiceMsg = `${t.voiceStep4}: ${request.merchantName}, ₹${request.amount}.`;
-              else voiceMsg = t.voiceStep5;
-              onSpeakText(voiceMsg);
-            }
-          }}
-          className="w-full sm:w-auto px-4 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 active:bg-amber-500 text-slate-950 font-black text-sm flex items-center justify-center gap-2 shadow-md cursor-pointer border-2 border-amber-500"
-          aria-label="Listen to step instruction"
-        >
-          <Volume2 className={`w-5 h-5 ${isSpeaking ? 'animate-bounce text-emerald-950' : ''}`} />
-          <span>{isSpeaking ? t.stopAudio : t.readAloud}</span>
-        </button>
+        <div>
+          <h2 className="text-xl sm:text-2xl font-black text-emerald-950">
+            {t.easyModeTitle}
+          </h2>
+          <p className="text-xs sm:text-sm text-emerald-800 font-bold">
+            {t.easyModeSubtitle}
+          </p>
+        </div>
       </div>
-
-      {/* Real-time Voice Subtitle Banner (if speaking) */}
-      {currentCaption && (
-        <div className="bg-slate-900 text-amber-300 px-4 py-3 rounded-xl text-center font-bold text-sm sm:text-base border-2 border-amber-400 shadow-sm animate-pulse">
-          🗣️ &quot;{currentCaption}&quot;
-        </div>
-      )}
 
       {/* STEP 1: Check the Amount */}
       <section
@@ -107,22 +62,13 @@ export const EasyPaymentMode: React.FC<EasyPaymentModeProps> = ({
             : 'bg-slate-50 border-slate-200 opacity-90'
         }`}
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="w-8 h-8 rounded-full bg-slate-900 text-white font-black text-sm flex items-center justify-center">
-              1
-            </span>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-950">
-              {t.step1Title}
-            </h3>
-          </div>
-          <button
-            onClick={() => onSpeakText(`${t.voiceStep1} ₹${request.amount}.`)}
-            className="p-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-100"
-            title="Read Step 1"
-          >
-            <Volume2 className="w-4 h-4" />
-          </button>
+        <div className="flex items-center gap-2.5">
+          <span className="w-8 h-8 rounded-full bg-slate-900 text-white font-black text-sm flex items-center justify-center">
+            1
+          </span>
+          <h3 className="text-xl sm:text-2xl font-black text-slate-950">
+            {t.step1Title}
+          </h3>
         </div>
 
         <p className="text-sm font-semibold text-slate-700 mt-2">
@@ -171,22 +117,13 @@ export const EasyPaymentMode: React.FC<EasyPaymentModeProps> = ({
             : 'bg-slate-50 border-slate-200 opacity-60'
         }`}
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="w-8 h-8 rounded-full bg-emerald-700 text-white font-black text-sm flex items-center justify-center">
-              2
-            </span>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-950">
-              {t.step2Title}
-            </h3>
-          </div>
-          <button
-            onClick={() => onSpeakText(t.voiceStep2)}
-            className="p-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-100"
-            title="Read Step 2"
-          >
-            <Volume2 className="w-4 h-4" />
-          </button>
+        <div className="flex items-center gap-2.5">
+          <span className="w-8 h-8 rounded-full bg-emerald-700 text-white font-black text-sm flex items-center justify-center">
+            2
+          </span>
+          <h3 className="text-xl sm:text-2xl font-black text-slate-950">
+            {t.step2Title}
+          </h3>
         </div>
 
         <p className="text-sm font-semibold text-slate-700 mt-2">
@@ -230,27 +167,38 @@ export const EasyPaymentMode: React.FC<EasyPaymentModeProps> = ({
             : 'bg-slate-50 border-slate-200 opacity-60'
         }`}
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="w-8 h-8 rounded-full bg-blue-700 text-white font-black text-sm flex items-center justify-center">
-              3
-            </span>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-950">
-              {t.step3Title}
-            </h3>
-          </div>
-          <button
-            onClick={() => onSpeakText(t.voiceStep3)}
-            className="p-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-100"
-            title="Read Step 3"
-          >
-            <Volume2 className="w-4 h-4" />
-          </button>
+        <div className="flex items-center gap-2.5">
+          <span className="w-8 h-8 rounded-full bg-blue-700 text-white font-black text-sm flex items-center justify-center">
+            3
+          </span>
+          <h3 className="text-xl sm:text-2xl font-black text-slate-950">
+            {t.step3Title}
+          </h3>
         </div>
 
         <p className="text-sm sm:text-base font-bold text-slate-800 mt-2 leading-relaxed">
           {t.step3Desc}
         </p>
+
+        {/* Familiar UPI App Icons */}
+        <div className="mt-3 flex items-center justify-start gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-200 shadow-xs">
+            <UpiAppIcon appId="phonepe" size="sm" />
+            <span className="text-xs font-bold text-slate-800">PhonePe</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-200 shadow-xs">
+            <UpiAppIcon appId="gpay" size="sm" />
+            <span className="text-xs font-bold text-slate-800">Google Pay</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-200 shadow-xs">
+            <UpiAppIcon appId="paytm" size="sm" />
+            <span className="text-xs font-bold text-slate-800">Paytm</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-xl border border-slate-200 shadow-xs">
+            <UpiAppIcon appId="bhim" size="sm" />
+            <span className="text-xs font-bold text-slate-800">BHIM</span>
+          </div>
+        </div>
 
         {activeStep === 3 && (
           <div className="mt-4 flex gap-3">
@@ -277,22 +225,13 @@ export const EasyPaymentMode: React.FC<EasyPaymentModeProps> = ({
             : 'bg-slate-50 border-slate-200 opacity-60'
         }`}
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="w-8 h-8 rounded-full bg-amber-700 text-white font-black text-sm flex items-center justify-center">
-              4
-            </span>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-950">
-              {t.step4Title}
-            </h3>
-          </div>
-          <button
-            onClick={() => onSpeakText(`${t.voiceStep4}: ${request.merchantName}, ₹${request.amount}.`)}
-            className="p-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-100"
-            title="Read Step 4"
-          >
-            <Volume2 className="w-4 h-4" />
-          </button>
+        <div className="flex items-center gap-2.5">
+          <span className="w-8 h-8 rounded-full bg-amber-700 text-white font-black text-sm flex items-center justify-center">
+            4
+          </span>
+          <h3 className="text-xl sm:text-2xl font-black text-slate-950">
+            {t.step4Title}
+          </h3>
         </div>
 
         <p className="text-sm sm:text-base font-bold text-slate-800 mt-2 leading-relaxed">
@@ -324,22 +263,13 @@ export const EasyPaymentMode: React.FC<EasyPaymentModeProps> = ({
             : 'bg-slate-50 border-slate-200 opacity-60'
         }`}
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <span className="w-8 h-8 rounded-full bg-purple-800 text-white font-black text-sm flex items-center justify-center">
-              5
-            </span>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-950">
-              {t.step5Title}
-            </h3>
-          </div>
-          <button
-            onClick={() => onSpeakText(t.voiceStep5)}
-            className="p-2 rounded-xl bg-white border border-slate-300 text-slate-700 hover:bg-slate-100"
-            title="Read Step 5"
-          >
-            <Volume2 className="w-4 h-4" />
-          </button>
+        <div className="flex items-center gap-2.5">
+          <span className="w-8 h-8 rounded-full bg-purple-800 text-white font-black text-sm flex items-center justify-center">
+            5
+          </span>
+          <h3 className="text-xl sm:text-2xl font-black text-slate-950">
+            {t.step5Title}
+          </h3>
         </div>
 
         <p className="text-sm sm:text-base font-bold text-purple-950 mt-2 leading-relaxed">

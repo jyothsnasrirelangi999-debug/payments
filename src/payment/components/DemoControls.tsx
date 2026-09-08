@@ -205,14 +205,14 @@ export const DemoControls: React.FC<DemoControlsProps> = ({
         <div className="bg-slate-900 px-6 py-4 text-white flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <span className="w-8 h-8 rounded-lg bg-amber-400 text-slate-950 font-black text-sm flex items-center justify-center">
-              SIH
+              TEST
             </span>
             <div>
               <h3 className="text-base sm:text-lg font-black tracking-tight">
-                Smart India Hackathon Judge Evaluation Harness
+                Payment Simulation &amp; Test Harness
               </h3>
               <p className="text-xs text-slate-400">
-                SahakarGig Payment Gateway Prototype &amp; Test Suite
+                SahakarGig UPI Intent Verification &amp; Simulation Suite
               </p>
             </div>
           </div>

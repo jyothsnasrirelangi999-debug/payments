@@ -6,7 +6,6 @@ import {
   Check,
   Share2,
   Lock,
-  ShieldCheck,
   ArrowRight,
   ExternalLink,
   Info,
@@ -14,6 +13,7 @@ import {
 import { PaymentRequest, UpiApp } from '../types/payment.types';
 import { TranslationSchema } from '../i18n/translations';
 import { SUPPORTED_UPI_APPS, isMobileDevice, isAndroidDevice } from '../utils/deepLinkHandler';
+import { UpiAppIcon } from './UpiAppIcon';
 
 interface PaymentCardProps {
   request: PaymentRequest | null;
@@ -73,10 +73,6 @@ export const PaymentCard: React.FC<PaymentCardProps> = ({
           <p className="text-xs text-slate-300">
             Booking ID: <span className="font-mono text-slate-100">{request.orderId}</span>
           </p>
-        </div>
-        <div className="flex items-center gap-1.5 bg-emerald-950/80 border border-emerald-700/60 px-2.5 py-1 rounded-full text-emerald-300 text-xs font-semibold">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-          <span>NPCI 2.0</span>
         </div>
       </div>
 
@@ -177,12 +173,11 @@ export const PaymentCard: React.FC<PaymentCardProps> = ({
                 disabled={isSubmitting}
                 className="flex flex-col items-center justify-center p-3 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition cursor-pointer group active:scale-95"
               >
-                <div
-                  className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-xs shadow-xs mb-1.5 transition group-hover:scale-105"
-                  style={{ backgroundColor: app.iconBg }}
-                >
-                  {app.name.substring(0, 2).toUpperCase()}
-                </div>
+                <UpiAppIcon
+                  appId={app.id}
+                  size="md"
+                  className="mb-1.5 group-hover:scale-105"
+                />
                 <span className="text-xs font-bold text-slate-800 group-hover:text-emerald-900">
                   {app.name}
                 </span>

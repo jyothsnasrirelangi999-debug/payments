@@ -106,8 +106,8 @@ export const translations: Record<Language, TranslationSchema> = {
     appSubtitle: 'Cooperative Gig Worker UPI Gateway',
     easyModeToggle: 'Easy Payment Mode (Large Text & Voice)',
     standardMode: 'Standard Mode',
-    demoModeBadge: 'SIH Prototype Demo',
-    demoModeLabel: 'Judge Test Controls',
+    demoModeBadge: 'Payment Sandbox Demo',
+    demoModeLabel: 'Test Simulator',
     demoNotice: 'Simulation Mode Active: Real money is not deducted. Transactions run in prototype mode.',
     
     securityTitle: '100% Safe UPI Payment',
@@ -197,8 +197,8 @@ export const translations: Record<Language, TranslationSchema> = {
     appSubtitle: 'సహకార కార్మికుల సులభమైన UPI గేట్‌వే',
     easyModeToggle: 'సులభమైన చెల్లింపు విధానం (పెద్ద అక్షరాలు & వాయిస్)',
     standardMode: 'సాధారణ విధానం',
-    demoModeBadge: 'SIH డెమో ప్రోటోటైప్',
-    demoModeLabel: 'న్యాయ నిర్ణేతల నియంత్రణలు',
+    demoModeBadge: 'చెల్లింపు డెమో',
+    demoModeLabel: 'సిమ్యులేటర్ నియంత్రణలు',
     demoNotice: 'డెమో మోడ్ యాక్టివ్‌గా ఉంది: అసలు డబ్బు కట్ అవ్వదు. ఇది పరీక్ష కోసం మాత్రమే.',
 
     securityTitle: '100% సురక్షితమైన UPI చెల్లింపు',
@@ -288,8 +288,8 @@ export const translations: Record<Language, TranslationSchema> = {
     appSubtitle: 'सहकारी कामगारों के लिए सरल UPI गेटवे',
     easyModeToggle: 'आसान भुगतान मोड (बड़े अक्षर और आवाज़)',
     standardMode: 'सामान्य मोड',
-    demoModeBadge: 'SIH प्रोटोटाइप डेमो',
-    demoModeLabel: 'जज टेस्ट नियंत्रण',
+    demoModeBadge: 'भुगतान डेमो',
+    demoModeLabel: 'सिम्युलेटर नियंत्रण',
     demoNotice: 'डेमो मोड सक्रिय है: बैंक से असली पैसे नहीं कटेंगे। यह केवल परीक्षण के लिए है।',
 
     securityTitle: '100% सुरक्षित UPI भुगतान',

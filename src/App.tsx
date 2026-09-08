@@ -8,7 +8,7 @@ import { QRCodeModal } from './payment/components/QRCodeModal';
 import { PaymentStatusScreen } from './payment/components/PaymentStatusScreen';
 import { DemoControls } from './payment/components/DemoControls';
 import { usePayment } from './payment/hooks/usePayment';
-import { AlertTriangle, ShieldCheck, Heart, Sparkles, Smartphone, Volume2 } from 'lucide-react';
+import { AlertTriangle, ShieldCheck, Heart, Sparkles, Smartphone } from 'lucide-react';
 
 export default function App() {
   const {
@@ -29,14 +29,9 @@ export default function App() {
     isSubmitting,
     easyStep,
     setEasyStep,
-    isVoiceEnabled,
-    setIsVoiceEnabled,
     isDemoControlsOpen,
     setIsDemoControlsOpen,
     t,
-    isSpeaking,
-    currentCaption,
-    speak,
     stop,
     initiatePayment,
     handleCopyUpiId,
@@ -57,39 +52,19 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-100/70 text-slate-900 flex flex-col font-sans selection:bg-emerald-200">
-      {/* Top Header with Language, Mode Switch, Voice Toggle */}
+      {/* Top Header with Language & Mode Switch */}
       <Header
         language={language}
         onLanguageChange={setLanguage}
         mode={mode}
         onToggleMode={() => {
+          stop();
           const nextMode = mode === 'standard' ? 'easy' : 'standard';
           setMode(nextMode);
-          if (nextMode === 'easy' && isVoiceEnabled) {
-            speak(t.voiceStep1, language);
-          }
-        }}
-        isVoiceEnabled={isVoiceEnabled}
-        onToggleVoice={() => {
-          if (isVoiceEnabled) {
-            stop();
-            setIsVoiceEnabled(false);
-          } else {
-            setIsVoiceEnabled(true);
-            speak(t.voiceStep1, language);
-          }
         }}
         onOpenDemo={() => setIsDemoControlsOpen(true)}
         t={t}
       />
-
-      {/* Real-time Voice Guidance Subtitle Banner */}
-      {currentCaption && (
-        <div className="bg-emerald-900 text-amber-300 py-2.5 px-4 text-center text-xs sm:text-sm font-black border-b border-emerald-800 shadow-md flex items-center justify-center gap-2">
-          <Volume2 className="w-4 h-4 text-amber-400 animate-pulse" />
-          <span>&quot;{currentCaption}&quot;</span>
-        </div>
-      )}
 
       {/* Main Container */}
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-6 sm:py-8 space-y-6">
@@ -134,15 +109,6 @@ export default function App() {
               onSetStep={setEasyStep}
               onPayAnyUpi={() => initiatePayment()}
               onOpenQr={() => setIsQrModalOpen(true)}
-              isVoiceEnabled={isVoiceEnabled}
-              onToggleVoice={() => {
-                if (isSpeaking) stop();
-                else setIsVoiceEnabled(!isVoiceEnabled);
-              }}
-              onSpeakText={(text) => speak(text, language)}
-              isSpeaking={isSpeaking}
-              currentCaption={currentCaption}
-              language={language}
               t={t}
             />
           </div>
@@ -152,7 +118,7 @@ export default function App() {
             {/* Gig Worker & Order Overview */}
             <GigOrderSummary order={selectedOrder} t={t} />
 
-            {/* NPCI & Zero-PIN Reassurance Banner */}
+            {/* Zero-PIN Reassurance Banner */}
             <SecurityBanner t={t} />
 
             {/* Core UPI Payment Card */}
@@ -168,27 +134,6 @@ export default function App() {
             />
           </div>
         )}
-
-        {/* SIH Hackathon Demo Quick Bar for Judges */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-            <span className="font-semibold text-slate-800">
-              Smart India Hackathon Prototype (SahakarGig)
-            </span>
-            <span className="text-slate-400">|</span>
-            <span className="text-slate-500 hidden sm:inline">
-              Testing on Mobile or Android Browser? Tap &apos;Judge Test Controls&apos; to inspect UPI intents or simulate transactions.
-            </span>
-          </div>
-
-          <button
-            onClick={() => setIsDemoControlsOpen(true)}
-            className="w-full sm:w-auto px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-bold hover:bg-slate-800 transition cursor-pointer shadow-xs whitespace-nowrap"
-          >
-            Open Judge Test Harness
-          </button>
-        </div>
       </main>
 
       {/* QR Code Modal */}
